@@ -1,7 +1,9 @@
+import config from '@/config'
 import { VForgotPasswordForm } from '@/form-validator/VForgotPasswordForm'
 import { VLoginForm } from '@/form-validator/VLoginForm'
 import { VResetPasswordForm } from '@/form-validator/VResetPasswordForm'
 import { VSignupForm } from '@/form-validator/VSignupForm'
+import { ProviderEntity } from '@/types/Provider'
 import Api from '@/utils/Api'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
@@ -55,6 +57,18 @@ export function useAuth() {
         toast.error(data?.message)
       })
       .finally(() => setIsSubmitting(false))
+  }
+
+  const loginViaSocial = async (provider: ProviderEntity) => {
+    if (isSubmitting) return
+
+    setIsSubmitting(true)
+
+    try {
+      window.location.assign(`${config.server_url}/users/${provider}`)
+    } catch (data) {
+      console.log(data, 'error')
+    }
   }
 
   const forgotPassword = (values: VForgotPasswordForm) => {
@@ -114,5 +128,6 @@ export function useAuth() {
     forgotPassword,
     resetPassword,
     logout,
+    loginViaSocial,
   }
 }

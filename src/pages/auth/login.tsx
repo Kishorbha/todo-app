@@ -5,8 +5,10 @@ import Link from 'next/link'
 import { SiAuth0 } from 'react-icons/si'
 import { FcGoogle } from 'react-icons/fc'
 import config from '@/config'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function Login() {
+  const { loginViaSocial } = useAuth()
   return (
     <AuthLayout>
       <Head>
@@ -32,20 +34,20 @@ export default function Login() {
           </p>
         </div>
         <div className='text-center md:text-center'>
-          <Link
-            href={`${config.server_url}/users/auth0`}
+          <button
+            onClick={() => loginViaSocial('auth0')}
             type='button'
             className='mx-4 p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
           >
             <SiAuth0 size='30' />
-          </Link>
-          <Link
-            href={`${config.server_url}/users/google`}
+          </button>
+          <button
+            onClick={() => loginViaSocial('google')}
             type='button'
             className='mx-4  p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
           >
             <FcGoogle size='30' />
-          </Link>
+          </button>
         </div>
       </div>
     </AuthLayout>
