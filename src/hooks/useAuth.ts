@@ -1,4 +1,3 @@
-import { useUser } from '@/context/UserContext'
 import { VForgotPasswordForm } from '@/form-validator/VForgotPasswordForm'
 import { VLoginForm } from '@/form-validator/VLoginForm'
 import { VResetPasswordForm } from '@/form-validator/VResetPasswordForm'
@@ -27,10 +26,11 @@ export function useAuth() {
     api
       .post('/users/register', values)
       .then(({ data }) => {
-        document.cookie = `user=${JSON.stringify(data?.user)}; path=/; domain=${
-          process.env.NEXT_PUBLIC_COOKIE_DOMAIN
-        }`
+        document.cookie = `user=${JSON.stringify(
+          data.data.user,
+        )}; path=/; domain=${process.env.NEXT_PUBLIC_COOKIE_DOMAIN}`
         a.current?.click()
+        toast.success(data?.message)
       })
       .catch(({ response: { data } }) => {
         toast.error(data?.message)
@@ -44,13 +44,14 @@ export function useAuth() {
     setIsSubmitting(true)
     api
       .post('/users/login', values)
-      .then((data) => {
+      .then(({ data }) => {
         document.cookie = `user=${JSON.stringify(
           data?.data?.user,
         )}; path=/; domain=${process.env.NEXT_PUBLIC_COOKIE_DOMAIN}`
         a.current?.click()
       })
-      .catch((data) => {
+      .catch(({ response: { data } }) => {
+        console.log(data)
         toast.error(data?.message)
       })
       .finally(() => setIsSubmitting(false))
@@ -90,22 +91,18 @@ export function useAuth() {
   const logout = () => {
     toast.promise(
       (async () => {
-        await api.delete('/users/logout')
+        await api.post('/users/logout')
       })(),
       {
         loading: 'Loading...',
         success: () => {
           if (a.current) {
-            a.current.href = '/users'
+            a.current.href = '/auth'
             a.current.click()
           }
           return 'Logging out'
         },
-        error: ({
-          response: {
-            data: { message },
-          },
-        }: any) => toast.error(message),
+        error: ({ response: { data } }: any) => toast.error(data.message),
       },
     )
   }

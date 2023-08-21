@@ -4,6 +4,7 @@ import { FcGoogle } from 'react-icons/fc'
 import AuthLayout from '@/layouts/AuthLayout'
 import Head from 'next/head'
 import RegisterForm from '@/modules/auth/RegisterForm'
+import config from '@/config'
 
 export default function Signup() {
   return (
@@ -23,18 +24,20 @@ export default function Signup() {
           </p>
         </div>
         <div className='text-center md:text-center '>
-          <button
+          <Link
+            href={`${config.server_url}/users/auth0`}
             type='button'
-            className='mx-4 h-22 w-22 p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
+            className='mx-4 p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
           >
             <SiAuth0 size='30' />
-          </button>
-          <button
+          </Link>
+          <Link
+            href={`${config.server_url}/users/google`}
             type='button'
-            className='mx-4 h-22 w-22 p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
+            className='mx-4  p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
           >
             <FcGoogle size='30' />
-          </button>
+          </Link>
         </div>
       </div>
     </AuthLayout>

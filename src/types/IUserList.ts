@@ -1,8 +1,12 @@
 export interface IUserList {
   id: string
-  username: string
-  profilePic?: string
+  fullname: string
+  avatar?: {
+    _id: string
+    localPath: string
+    url: string
+  }
   email: string
-  verified: boolean
+  isEmailVerified: boolean
   createdAt: string
 }

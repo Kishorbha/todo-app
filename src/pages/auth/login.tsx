@@ -4,6 +4,7 @@ import LoginForm from '../../modules/auth/LoginForm'
 import Link from 'next/link'
 import { SiAuth0 } from 'react-icons/si'
 import { FcGoogle } from 'react-icons/fc'
+import config from '@/config'
 
 export default function Login() {
   return (
@@ -31,18 +32,20 @@ export default function Login() {
           </p>
         </div>
         <div className='text-center md:text-center'>
-          <button
+          <Link
+            href={`${config.server_url}/users/auth0`}
             type='button'
-            className='mx-4 h-22 w-22 p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
+            className='mx-4 p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
           >
             <SiAuth0 size='30' />
-          </button>
-          <button
+          </Link>
+          <Link
+            href={`${config.server_url}/users/google`}
             type='button'
-            className='mx-4 h-22 w-22 p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
+            className='mx-4  p-4 text-center rounded-full  text-amber-900  shadow-[0_4px_9px_-4px_#d7843b]'
           >
             <FcGoogle size='30' />
-          </button>
+          </Link>
         </div>
       </div>
     </AuthLayout>
